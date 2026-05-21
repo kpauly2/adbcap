@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import platform
+import re
 import select
 import shutil
 import signal
@@ -71,7 +72,9 @@ class Device:
 
     @property
     def safe_name(self) -> str:
-        return self.name.replace(" ", "-")
+        name = self.name.replace(" ", "-")
+        name = re.sub(r"[^\w\-]", "", name)
+        return name or self.id
 
 
 class CLIError(Exception):
